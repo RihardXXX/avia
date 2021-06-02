@@ -8,7 +8,7 @@ axios.defaults.baseURL = url;
 // countries страны
 // cities города
 // prices/cheap
-
+// hello
 const getCountries = () =>
   axios
     .get('/countries')
