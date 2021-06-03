@@ -1,5 +1,7 @@
-import api from './services/api';
+import store from './store/index';
 
-const { getCountries, getCities } = api;
+const { state, mutations, actions } = store;
 
-getCountries().then((countries) => console.log(countries));
+actions
+  .getCountries({ state, mutations })
+  .then((countries) => console.log(state));
