@@ -19,3 +19,69 @@
   margin: 20px auto;
   text-align: center;
 }
+
+.card-action {
+  display: flex;
+  justify-content: space-between;
+}
+
+.datepicker {
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 992px) {
+  .card {
+    width: 700px;
+  }
+  .hide-on-med-and-down {
+    display: block !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 600px;
+  }
+  .brand-logo {
+    margin-left: 150px;
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 500px;
+  }
+}
+
+@media (max-width: 416px) {
+  .card {
+    width: 350px;
+  }
+}
+
+@media (max-width: 376px) {
+  .card {
+    width: 300px;
+  }
+  .card .card-action {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+}
+
+@media (max-width: 322px) {
+  .card {
+    width: 250px;
+  }
+  .brand-logo {
+    margin-right: 0;
+  }
+  .brand-logo .material-icons {
+    font-size: 30px;
+    margin-right: 25px;
+  }
+}

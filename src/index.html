@@ -58,8 +58,33 @@
                 />
                 <label for="autocomplete-destination">куда</label>
               </div>
+              <div class="input-filed">
+                <label for="depart">Дата отправки</label>
+                <input type="text" class="datepicker" id="depart" />
+              </div>
+              <div class="input-filed">
+                <label for="return">Дата возврата</label>
+                <input type="text" class="datepicker" id="return" />
+              </div>
             </div>
-            <div class="card-action"></div>
+            <div class="card-action">
+              <button
+                class="btn waves-effect waves-light"
+                type="submit"
+                name="action"
+              >
+                поиск
+                <i class="material-icons right">send</i>
+              </button>
+              <button
+                class="btn waves-effect waves-light"
+                type="reset"
+                name="action"
+              >
+                сбросить всё
+                <i class="material-icons right">clear_all</i>
+              </button>
+            </div>
           </form>
         </div>
       </div>
