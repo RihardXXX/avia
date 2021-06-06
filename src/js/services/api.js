@@ -18,10 +18,17 @@ const getCountries = () =>
 const getCities = () =>
   axios
     .get('/cities')
-    .then((cities) => cities)
+    .then((cities) => cities.data)
+    .catch((err) => err.message);
+
+const getPrices = (params) =>
+  axios
+    .get('/prices/cheap', { params })
+    .then((prices) => prices.data)
     .catch((err) => err.message);
 
 export default {
   getCountries,
   getCities,
+  getPrices,
 };
