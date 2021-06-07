@@ -2,9 +2,13 @@ import store from './store/index';
 import '../plugins';
 import '../css/style.css';
 import formInterface from '../js/view/form';
+import popup from '../js/view/popup';
+import currency from '../js/view/currency';
 import utils from './utils';
 
-const { state, mutations, actions } = store;
+console.log(currency.getcurrency());
+
+const { state, mutations, actions, isLoading } = store;
 const { getCityCodeByKey } = utils;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -18,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
       getDestinationValue,
       getDepartValue,
       getReturnValue,
-      disableBtns,
     } = formInterface;
 
     //  устанавливаем в объект автокомплит список городов
@@ -28,10 +31,14 @@ document.addEventListener('DOMContentLoaded', function () {
     getForm().addEventListener('submit', (e) => {
       e.preventDefault();
       // собраем данные с формы
-      const data = onFromSubmit();
-      console.log(data);
-      // кнопки отключаем
-      disableBtns();
+      try {
+        const data = onFromSubmit();
+        console.log(data);
+        actions.getInfoPrices({ state, mutations, payload: data });
+      } catch (error) {
+        console.log('не все поля заполнены');
+        popup.getPopup().open();
+      }
     });
 
     // отправка формы на сервер функция
@@ -41,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const destination = getCityCodeByKey(cities, getDestinationValue());
       const depart_date = getDepartValue();
       const returnD = getReturnValue();
+      // const currency = currency.getcurrency();
+      console.log(currency);
       // формат отправки на сервер
       // origin: code, destination: code, date: 2019-09, date: 2019-10
       return {
@@ -48,11 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
         destination,
         depart_date,
         returnD,
+        // currency,
       };
     }
 
     // console.log(state);
     // console.log(countries);
-    console.log(cities);
+    // console.log(cities);
   });
 });

@@ -85,3 +85,11 @@
     margin-right: 25px;
   }
 }
+
+.modal {
+  text-align: center;
+}
+
+.modal .modal-footer {
+  text-align: center;
+}

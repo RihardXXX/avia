@@ -25,8 +25,8 @@ const formUI = (getAutocompleteInstance, getDatepickerInstance) => {
       originAutocomplete.updateData(list);
       destinationAutocomplete.updateData(list);
     },
-    disableBtns: () => {
-      btns.forEach((btn) => (btn.disabled = true));
+    disableBtns: (status) => {
+      btns.forEach((btn) => (btn.disabled = status));
     },
   };
 };

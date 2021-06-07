@@ -29,3 +29,11 @@ M.Datepicker.init(datepicker, {
 export function getDatepickerInstance(elem) {
   return M.Datepicker.getInstance(elem);
 }
+
+// инициализация модального окна
+const popup = document.querySelectorAll('.modal');
+M.Modal.init(popup);
+
+export function getPopupInstance(elem) {
+  return M.Modal.getInstance(elem);
+}

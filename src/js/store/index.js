@@ -1,8 +1,11 @@
 import api from '../services/api';
 import converterData from '../utils';
+import formInterface from '../view/form';
+
+const { disableBtns } = formInterface;
 
 // api
-const { getCountries, getCities } = api;
+const { getCountries, getCities, getPrices } = api;
 
 //utils
 const {
@@ -62,16 +65,16 @@ const mutations = {
   },
 
   getTicketsStart(state) {
-    state.isLoading = true
+    state.isLoading = true;
   },
   getTicketsSuccess(state, payload) {
-    state.isLoading = false
+    state.isLoading = false;
     state.tickets = payload;
   },
   getTicketsFailure(state, payload) {
-    state.isLoading = false
-      state.error = payload;
-  }
+    state.isLoading = false;
+    state.error = payload;
+  },
 
   setListForAutocomplete(state, payload) {
     state.listForAutocomplete = payload;
@@ -116,6 +119,23 @@ const actions = {
       this.getCities({ state, mutations }),
     ]);
     return res;
+  },
+  getInfoPrices({ state, mutations, payload }) {
+    return new Promise((resolve) => {
+      mutations.getTicketsStart(state);
+      disableBtns(true);
+      getPrices(payload)
+        .then((tickets) => {
+          disableBtns(false);
+          console.log(tickets);
+          mutations.getTicketsSuccess(tickets);
+          resolve(tickets);
+        })
+        .catch((err) => {
+          disableBtns(state.isLoading);
+          mutations.getTicketsFailure(err);
+        });
+    });
   },
 };
 
