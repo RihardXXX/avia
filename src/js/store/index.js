@@ -5,7 +5,7 @@ import formInterface from '../view/form';
 const { disableBtns } = formInterface;
 
 // api
-const { getCountries, getCities, getPrices } = api;
+const { getCountries, getCities, getPrices, getAirlinesInfo } = api;
 
 //utils
 const {
@@ -13,16 +13,27 @@ const {
   convertedCities,
   getCountryNameByCode,
   createListforAutocomplete,
+  convertedAirlines,
 } = converterData;
 
 //state
 const state = {
   countries: null,
   cities: null,
+  airlines: null,
   listForAutocomplete: null,
   tickets: null,
   error: null,
   isLoading: false,
+};
+
+const getters = {
+  getAirlinesNameByCode(state, code) {
+    return state.airlines[code] ? state.airlines[code].name : '';
+  },
+  getAirlinesLogoByCode(state, code) {
+    return state.airlines[code] ? state.airlines[code].logo : '';
+  },
 };
 
 // mutations list
@@ -76,6 +87,18 @@ const mutations = {
     state.error = payload;
   },
 
+  getAirlinesStart(state) {
+    state.isLoading = true;
+  },
+  getAirlinesSuccess(state, payload) {
+    state.isLoading = false;
+    state.airlines = payload;
+  },
+  getAirlinesFailure(state, payload) {
+    state.isLoading = false;
+    state.error = payload;
+  },
+
   setListForAutocomplete(state, payload) {
     state.listForAutocomplete = payload;
   },
@@ -113,10 +136,24 @@ const actions = {
         .catch((erros) => mutations.getCitiesFailure(state, erros));
     });
   },
+  getAirlines({ state, mutations }) {
+    return new Promise((resolve) => {
+      mutations.getAirlinesStart(state);
+      getAirlinesInfo()
+        .then((air) => {
+          const airlines = convertedAirlines(air);
+          console.log(airlines);
+          mutations.getAirlinesSuccess(state, airlines);
+          resolve(airlines);
+        })
+        .catch((erros) => mutations.getAirlinesFailure(state, erros));
+    });
+  },
   async initCountriesCities({ state, mutations }) {
     const res = await Promise.all([
       this.getCountries({ state, mutations }),
       this.getCities({ state, mutations }),
+      this.getAirlines({ state, mutations }),
     ]);
     return res;
   },
@@ -143,4 +180,5 @@ export default {
   state,
   mutations,
   actions,
+  getters,
 };

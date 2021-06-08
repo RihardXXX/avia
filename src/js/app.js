@@ -8,7 +8,8 @@ import utils from './utils';
 
 console.log(currency.getcurrency());
 
-const { state, mutations, actions, isLoading } = store;
+const { state, mutations, actions, isLoading, getters } = store;
+
 const { getCityCodeByKey } = utils;
 
 document.addEventListener('DOMContentLoaded', function () {
