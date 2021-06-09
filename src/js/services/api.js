@@ -31,6 +31,7 @@ const getPrices = (params) =>
   axios
     .get('/prices/cheap', { params })
     .then((prices) => prices.data)
+    .then((prices) => prices.data)
     .catch((err) => err.message);
 
 export default {

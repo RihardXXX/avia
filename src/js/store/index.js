@@ -142,7 +142,6 @@ const actions = {
       getAirlinesInfo()
         .then((air) => {
           const airlines = convertedAirlines(air);
-          console.log(airlines);
           mutations.getAirlinesSuccess(state, airlines);
           resolve(airlines);
         })
@@ -176,9 +175,4 @@ const actions = {
   },
 };
 
-export default {
-  state,
-  mutations,
-  actions,
-  getters,
-};
+export default { state, mutations, actions, getters };

@@ -6,8 +6,6 @@ import popup from '../js/view/popup';
 import currency from '../js/view/currency';
 import utils from './utils';
 
-console.log(currency.getcurrency());
-
 const { state, mutations, actions, isLoading, getters } = store;
 
 const { getCityCodeByKey } = utils;
@@ -25,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
       getReturnValue,
     } = formInterface;
 
+    console.log(state);
     //  устанавливаем в объект автокомплит список городов
     setAutocompleteShortList(listForAutocomplete);
 
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const depart_date = getDepartValue();
       const returnD = getReturnValue();
       // const currency = currency.getcurrency();
-      console.log(currency);
       // формат отправки на сервер
       // origin: code, destination: code, date: 2019-09, date: 2019-10
       return {
