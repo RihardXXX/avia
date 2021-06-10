@@ -14,6 +14,7 @@ const {
   getCountryNameByCode,
   createListforAutocomplete,
   convertedAirlines,
+  convertedTickets,
 } = converterData;
 
 //state
@@ -163,8 +164,9 @@ const actions = {
       getPrices(payload)
         .then((tickets) => {
           disableBtns(false);
-          console.log(tickets);
-          mutations.getTicketsSuccess(tickets);
+          const ticketsList = convertedTickets(tickets, state, getters);
+          console.log(ticketsList);
+          mutations.getTicketsSuccess(ticketsList);
           resolve(tickets);
         })
         .catch((err) => {

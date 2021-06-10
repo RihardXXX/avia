@@ -1,8 +1,4 @@
-import * as store from '../store/index';
-// конвертер стран и городов из массива в объекты
-const { state } = store;
-
-console.log(store);
+import { format } from 'date-fns';
 
 // делаем объект стран где под каждым кодом объект данных страны
 const convertedCountries = (countries) => {
@@ -65,15 +61,30 @@ const getCityNamebyCode = (cities, code) => {
   return cities[code].name;
 };
 
+//функция необходимая для форматирования даты
+const formatDate = (str, type) => format(new Date(str), type);
+
 // конвертируем объект с билетами в удобный формат для дальнейшей вёрстки
-const convertedTickets = (tickets) => {
+const convertedTickets = (tickets, state, getters) => {
+  const { getAirlinesLogoByCode, getAirlinesNameByCode } = getters;
   return Object.values(tickets).map((ticket) => {
+    const origin_name = getCityNamebyCode(state.cities, ticket.origin);
+    const destination_name = getCityNamebyCode(
+      state.cities,
+      ticket.destination
+    );
+    const airline_logo = getAirlinesLogoByCode(state, ticket.airline);
+    const airline_name = getAirlinesLogoByCode(state, ticket.airline);
+    const departure_at = formatDate(ticket.departure_at, 'dd MMM yyyy H:mm');
+    const return_at = formatDate(ticket.return_at, 'dd MMM yyyy H:mm');
     return {
       ...ticket,
-      origin_name: getCityNamebyCode(ticket.origin),
-      destination_name: getCityNamebyCode(ticket.destination),
-      // airline_logo: getAirlinesLogoByCode(state, ticket.airline),
-      // airline_name: getAirlinesNameByCode(state, ticket.airline),
+      origin_name,
+      destination_name,
+      airline_logo,
+      airline_name,
+      departure_at,
+      return_at,
     };
   });
 };

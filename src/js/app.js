@@ -3,17 +3,16 @@ import '../plugins';
 import '../css/style.css';
 import formInterface from '../js/view/form';
 import popup from '../js/view/popup';
-import currency from '../js/view/currency';
 import utils from './utils';
+// import currency from '../js/view/currency';
 
 const { state, mutations, actions, isLoading, getters } = store;
-
-const { getCityCodeByKey } = utils;
 
 document.addEventListener('DOMContentLoaded', function () {
   // init store
   actions.initCountriesCities({ state, mutations }).then(() => {
     const { countries, cities, listForAutocomplete, error, isLoading } = state;
+    const { getCityCodeByKey } = utils;
     const {
       getForm,
       setAutocompleteShortList,
@@ -23,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
       getReturnValue,
     } = formInterface;
 
-    console.log(state);
     //  устанавливаем в объект автокомплит список городов
     setAutocompleteShortList(listForAutocomplete);
 
@@ -33,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // собраем данные с формы
       try {
         const data = onFromSubmit();
-        console.log(data);
+        // console.log(data);
         actions.getInfoPrices({ state, mutations, payload: data });
       } catch (error) {
         console.log('не все поля заполнены');
