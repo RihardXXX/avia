@@ -74,7 +74,7 @@ const convertedTickets = (tickets, state, getters) => {
       ticket.destination
     );
     const airline_logo = getAirlinesLogoByCode(state, ticket.airline);
-    const airline_name = getAirlinesLogoByCode(state, ticket.airline);
+    const airline_name = getAirlinesNameByCode(state, ticket.airline);
     const departure_at = formatDate(ticket.departure_at, 'dd MMM yyyy H:mm');
     const return_at = formatDate(ticket.return_at, 'dd MMM yyyy H:mm');
     return {

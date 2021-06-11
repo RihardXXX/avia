@@ -1,6 +1,7 @@
 import api from '../services/api';
 import converterData from '../utils';
 import formInterface from '../view/form';
+import ticketsUI from '../view/tickets';
 
 const { disableBtns } = formInterface;
 
@@ -166,6 +167,7 @@ const actions = {
           disableBtns(false);
           const ticketsList = convertedTickets(tickets, state, getters);
           console.log(ticketsList);
+          ticketsUI.renderTickets(ticketsList);
           mutations.getTicketsSuccess(ticketsList);
           resolve(tickets);
         })

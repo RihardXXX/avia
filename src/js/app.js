@@ -8,6 +8,8 @@ import utils from './utils';
 
 const { state, mutations, actions, isLoading, getters } = store;
 
+// console.log(tickets.renderTickets);
+
 document.addEventListener('DOMContentLoaded', function () {
   // init store
   actions.initCountriesCities({ state, mutations }).then(() => {
