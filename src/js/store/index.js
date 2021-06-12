@@ -2,6 +2,9 @@ import api from '../services/api';
 import converterData from '../utils';
 import formInterface from '../view/form';
 import ticketsUI from '../view/tickets';
+import preloader from '../view/preloader';
+
+console.log(preloader);
 
 const { disableBtns } = formInterface;
 
@@ -160,19 +163,23 @@ const actions = {
   },
   getInfoPrices({ state, mutations, payload }) {
     return new Promise((resolve) => {
+      ticketsUI.clearContainer();
       mutations.getTicketsStart(state);
+      preloader.onPreloader(true);
       disableBtns(true);
       getPrices(payload)
         .then((tickets) => {
           disableBtns(false);
           const ticketsList = convertedTickets(tickets, state, getters);
           console.log(ticketsList);
-          ticketsUI.renderTickets(ticketsList);
           mutations.getTicketsSuccess(ticketsList);
+          preloader.onPreloader(false);
+          ticketsUI.renderTickets(ticketsList);
           resolve(tickets);
         })
         .catch((err) => {
-          disableBtns(state.isLoading);
+          disableBtns(false);
+          preloader.onPreloader(false);
           mutations.getTicketsFailure(err);
         });
     });

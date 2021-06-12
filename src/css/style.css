@@ -16,9 +16,20 @@
 
 /* .card {
   width: 700px;
+  height: 400px;
   margin: 20px auto;
   text-align: center;
 } */
+
+.card .card-image {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.card .card-content .collapsible-header {
+  justify-content: center;
+}
 
 .card-action {
   display: flex;

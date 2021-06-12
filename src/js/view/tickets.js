@@ -32,36 +32,63 @@ const ticketsUI = () => {
   const ticketTemplate = (ticket) => {
     return `
     <div class="col s12 m12">
-      <div class="card ticket-card">
-        <div class="ticket-airline d-flex align-items-center">
-          <img
-            src="${ticket.airline_logo}"
-            class="ticket-airline-img"
-          />
-          <span class="ticket-airline-name"
-            >${ticket.airline_name}1111</span
-          >
-        </div>
-        <div class="ticket-destination d-flex align-items-center">
-          <div class="d-flex align-items-center mr-auto">
-            <span class="ticket-city">${ticket.origin_name}</span>
-            <i class="medium material-icons">flight_takeoff</i>
-          </div>
-          <div class="d-flex align-items-center">
-            <span class="ticket-city">${ticket.destination_name}</span>
-            <i class="medium material-icons">flight_land</i>
-          </div>
-        </div>
-        <div class="ticket-time-price d-flex align-items-center">
-          <span class="ticket-time-departure">${ticket.departure_at}</span>
-          <span class="ticket-price ml-auto">$${ticket.price}</span>
-        </div>
-        <div class="ticket-additional-info">
-          <span class="ticket-transfers">Пересадок: ${ticket.transfers}</span>
-          <span class="ticket-flight-number">Номер рейса: ${ticket.flight_number}</span>
-        </div>
+    <div class="card">
+      <div class="card-image">
+        <img src="${ticket.airline_logo}" />
+      </div>
+      <div class="card-content">
+        <ul class="collapsible">
+          <li>
+            <div class="collapsible-header">
+              <i class="large material-icons">subtitles</i>
+              ${ticket.airline_name}
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="large material-icons">flight_takeoff</i>
+              ${ticket.origin_name}
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="large material-icons">flight_land</i>
+              ${ticket.destination_name}
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="large material-icons">date_range</i>
+              ${ticket.departure_at}
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="large material-icons">attach_money</i>
+              ${ticket.price}
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="large material-icons">directions_transit</i>
+              Пересадок ${ticket.transfers}
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <i class="large material-icons">flight</i>
+              Номер рейса ${ticket.flight_number}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="#"
+          >Сюда мы в будущем затолкаем ссылку на страницу авиакомпании
+        </a>
       </div>
     </div>
+  </div>
     `;
   };
 
