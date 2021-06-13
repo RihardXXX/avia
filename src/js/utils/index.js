@@ -1,4 +1,6 @@
 import { format } from 'date-fns';
+import store from '../store/index';
+import * as moneyJS from './money';
 
 // делаем объект стран где под каждым кодом объект данных страны
 const convertedCountries = (countries) => {
@@ -66,6 +68,14 @@ const formatDate = (str, type) => format(new Date(str), type);
 
 // конвертируем объект с билетами в удобный формат для дальнейшей вёрстки
 const convertedTickets = (tickets, state, getters) => {
+  // из стейта берём курс валют в виде объекта
+  const { usd: rates } = store.state.ratesFromDate;
+  const { fx } = moneyJS;
+  // эти курсы кладём в функцию библиотеки
+  fx.rates = rates;
+  // устанавливаем из какой валюты и во что конвертируем
+  fx.settings = { from: 'usd', to: 'rub' };
+
   const { getAirlinesLogoByCode, getAirlinesNameByCode } = getters;
   return Object.values(tickets).map((ticket) => {
     const origin_name = getCityNamebyCode(state.cities, ticket.origin);
@@ -77,6 +87,7 @@ const convertedTickets = (tickets, state, getters) => {
     const airline_name = getAirlinesNameByCode(state, ticket.airline);
     const departure_at = formatDate(ticket.departure_at, 'dd MMM yyyy H:mm');
     const return_at = formatDate(ticket.return_at, 'dd MMM yyyy H:mm');
+    const priceRub = fx.convert(ticket.price).toFixed(2);
     return {
       ...ticket,
       origin_name,
@@ -85,6 +96,7 @@ const convertedTickets = (tickets, state, getters) => {
       airline_name,
       departure_at,
       return_at,
+      priceRub,
     };
   });
 };

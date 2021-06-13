@@ -4,12 +4,13 @@ import formInterface from '../view/form';
 import ticketsUI from '../view/tickets';
 import preloader from '../view/preloader';
 
-console.log(preloader);
-
 const { disableBtns } = formInterface;
 
 // api
-const { getCountries, getCities, getPrices, getAirlinesInfo } = api;
+const { getCountries, getCities, getPrices, getAirlinesInfo, getCurrency } =
+  api;
+
+getCurrency().then((res) => {});
 
 //utils
 const {
@@ -28,6 +29,7 @@ const state = {
   airlines: null,
   listForAutocomplete: null,
   tickets: null,
+  ratesFromDate: null,
   error: null,
   isLoading: false,
 };
@@ -104,6 +106,18 @@ const mutations = {
     state.error = payload;
   },
 
+  getCurrencyRatesStart(state) {
+    state.isLoading = true;
+  },
+  getCurrencyRatesSuccess(state, payload) {
+    state.isLoading = false;
+    state.ratesFromDate = payload;
+  },
+  getCurrencyRatesFailure(state, payload) {
+    state.isLoading = false;
+    state.error = payload;
+  },
+
   setListForAutocomplete(state, payload) {
     state.listForAutocomplete = payload;
   },
@@ -111,6 +125,7 @@ const mutations = {
 
 // actions list
 const actions = {
+  // возвращаем страны
   getCountries({ state, mutations }) {
     return new Promise((resolve) => {
       mutations.getCountriesStart(state);
@@ -123,6 +138,7 @@ const actions = {
         .catch((error) => mutations.getCountriesFailure(state, error));
     });
   },
+  // возвращаем города
   getCities({ state, mutations }) {
     return new Promise((resolve) => {
       mutations.getCitiesStart(state);
@@ -141,6 +157,7 @@ const actions = {
         .catch((erros) => mutations.getCitiesFailure(state, erros));
     });
   },
+  // ворвращаем авиакомпании
   getAirlines({ state, mutations }) {
     return new Promise((resolve) => {
       mutations.getAirlinesStart(state);
@@ -153,17 +170,31 @@ const actions = {
         .catch((erros) => mutations.getAirlinesFailure(state, erros));
     });
   },
+  // возвращаем текущий курс валют
+  getCurrencyRates({ state, mutations }) {
+    return new Promise((resolve) => {
+      mutations.getCurrencyRatesStart(state);
+      getCurrency()
+        .then((ratesFromDate) => {
+          mutations.getCurrencyRatesSuccess(state, ratesFromDate);
+          resolve(ratesFromDate);
+        })
+        .catch((error) => mutations.getCurrencyRatesFailure(error));
+    });
+  },
+  // инициализация всех данных
   async initCountriesCities({ state, mutations }) {
     const res = await Promise.all([
       this.getCountries({ state, mutations }),
       this.getCities({ state, mutations }),
       this.getAirlines({ state, mutations }),
+      this.getCurrencyRates({ state, mutations }),
     ]);
     return res;
   },
+  //получение билетов и их рендер на странице
   getInfoPrices({ state, mutations, payload }) {
     return new Promise((resolve) => {
-      ticketsUI.clearContainer();
       mutations.getTicketsStart(state);
       preloader.onPreloader(true);
       disableBtns(true);

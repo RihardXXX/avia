@@ -59,8 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // currency,
       };
     }
-
-    // console.log(state);
+    console.log(state);
     // console.log(countries);
     // console.log(cities);
   });

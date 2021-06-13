@@ -41,43 +41,43 @@ const ticketsUI = () => {
           <li>
             <div class="collapsible-header">
               <i class="large material-icons">subtitles</i>
-              ${ticket.airline_name}
+              <b>${ticket.airline_name}</b>
             </div>
           </li>
           <li>
             <div class="collapsible-header">
               <i class="large material-icons">flight_takeoff</i>
-              ${ticket.origin_name}
+              <span class="badge blue">откуда:</span><b>${ticket.origin_name}</b>
             </div>
           </li>
           <li>
             <div class="collapsible-header">
               <i class="large material-icons">flight_land</i>
-              ${ticket.destination_name}
+              <span class="badge blue">куда:</span><b>${ticket.destination_name}</b>
             </div>
           </li>
           <li>
             <div class="collapsible-header">
               <i class="large material-icons">date_range</i>
-              ${ticket.departure_at}
+              <span class="badge blue">дата и время:</span><b>${ticket.departure_at}</b>
             </div>
           </li>
           <li>
             <div class="collapsible-header">
-              <i class="large material-icons">attach_money</i>
-              ${ticket.price}
+            <i class="large material-icons">attach_money</i>
+              <span class="badge blue">стоимость:</span><b>$${ticket.price} || ₽${ticket.priceRub}</b>
             </div>
           </li>
           <li>
             <div class="collapsible-header">
               <i class="large material-icons">directions_transit</i>
-              Пересадок ${ticket.transfers}
+              <span class="badge blue">пересадок:</span><b>${ticket.transfers}</b>
             </div>
           </li>
           <li>
             <div class="collapsible-header">
               <i class="large material-icons">flight</i>
-              Номер рейса ${ticket.flight_number}
+              <span class="badge blue">номер рейса:</span><b>${ticket.flight_number}</b>
             </div>
           </li>
         </ul>
