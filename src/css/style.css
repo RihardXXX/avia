@@ -41,6 +41,16 @@
   justify-content: space-between;
 }
 
+.wrapper-favorite {
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.toggle-btn {
+  background-color: #143835;
+}
+
 .datepicker {
   text-align: center;
 }

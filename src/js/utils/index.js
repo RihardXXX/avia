@@ -1,6 +1,8 @@
 import { format } from 'date-fns';
 import store from '../store/index';
 import * as moneyJS from './money';
+import { nanoid } from 'nanoid';
+import favoriteUI from '../view/favorite';
 
 // делаем объект стран где под каждым кодом объект данных страны
 const convertedCountries = (countries) => {
@@ -88,8 +90,12 @@ const convertedTickets = (tickets, state, getters) => {
     const departure_at = formatDate(ticket.departure_at, 'dd MMM yyyy H:mm');
     const return_at = formatDate(ticket.return_at, 'dd MMM yyyy H:mm');
     const priceRub = fx.convert(ticket.price).toFixed(2);
+    const id = nanoid();
+    const isFavorite = false;
     return {
       ...ticket,
+      id,
+      isFavorite,
       origin_name,
       destination_name,
       airline_logo,
@@ -98,6 +104,53 @@ const convertedTickets = (tickets, state, getters) => {
       return_at,
       priceRub,
     };
+  });
+};
+
+// функция для работы с локалсториджем
+const getItem = (key) => {
+  try {
+    return JSON.parse(localStorage.getItem(key)); // парсим данные с локалсториджа
+  } catch (e) {
+    console.log('Error getting data from localStorage', e);
+    return null;
+  }
+};
+
+const setItem = (key, data) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (e) {
+    console.log('Error saving data from localStorage', e);
+  }
+};
+
+//обработчик для добавления в избранное и удалить
+const chooseFavorite = (tickets, state) => {
+  const row = document.querySelector('.row');
+
+  row.addEventListener('click', (e) => {
+    console.log(e.target);
+    // добавление в избранное
+    if (e.target.classList.contains('favorite-btn')) {
+      const id = e.target.dataset.id;
+      e.target.setAttribute('disabled', 'disabled');
+      const favoriteTicket = tickets.find((ticket) => ticket.id === id);
+      favoriteTicket.isFavorite = true;
+      state.listFavorites.push(favoriteTicket);
+      setItem('listFavorites', state.listFavorites);
+    }
+    //удаление из избранного
+    else if (e.target.classList.contains('delete-btn')) {
+      const id = e.target.dataset.id;
+      const favoriteTicket = state.listFavorites.filter(
+        (ticket) => ticket.id !== id
+      );
+      console.log(favoriteTicket);
+      state.listFavorites = favoriteTicket;
+      setItem('listFavorites', favoriteTicket);
+      favoriteUI().renderFavorites(state.listFavorites);
+    }
   });
 };
 
@@ -110,4 +163,6 @@ export default {
   convertedAirlines,
   getCityNamebyCode,
   convertedTickets,
+  chooseFavorite,
+  getItem,
 };

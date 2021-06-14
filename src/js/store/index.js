@@ -10,8 +10,6 @@ const { disableBtns } = formInterface;
 const { getCountries, getCities, getPrices, getAirlinesInfo, getCurrency } =
   api;
 
-getCurrency().then((res) => {});
-
 //utils
 const {
   convertedCountries,
@@ -30,6 +28,7 @@ const state = {
   listForAutocomplete: null,
   tickets: null,
   ratesFromDate: null,
+  listFavorites: [],
   error: null,
   isLoading: false,
 };
@@ -121,6 +120,9 @@ const mutations = {
   setListForAutocomplete(state, payload) {
     state.listForAutocomplete = payload;
   },
+  setListFavorites(state, payload) {
+    state.listFavorites = payload;
+  },
 };
 
 // actions list
@@ -202,11 +204,11 @@ const actions = {
         .then((tickets) => {
           disableBtns(false);
           const ticketsList = convertedTickets(tickets, state, getters);
-          console.log(ticketsList);
+          // console.log(ticketsList);
           mutations.getTicketsSuccess(ticketsList);
           preloader.onPreloader(false);
           ticketsUI.renderTickets(ticketsList);
-          resolve(tickets);
+          resolve(ticketsList);
         })
         .catch((err) => {
           disableBtns(false);

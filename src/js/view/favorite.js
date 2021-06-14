@@ -1,32 +1,17 @@
-const ticketsUI = () => {
+const favoriteUI = () => {
   const container = document.querySelector('.tickets-sections .row');
 
-  const renderTickets = (tickets) => {
-    clearContainer();
-    if (!tickets.length) {
-      showEmptyMsg();
-      return;
-    }
-    let fragments = '';
+  // рендер избранных билетов
+  const renderFavorites = (tickets) => {
+    container.innerHTML = '';
+
+    let fragment = '';
+    if (!tickets || !tickets.length) return;
     tickets.forEach((ticket) => {
-      const template = ticketTemplate(ticket);
-      fragments += template;
+      const elem = ticketTemplate(ticket);
+      fragment += elem;
     });
-    container.insertAdjacentHTML('afterbegin', fragments);
-  };
-
-  const clearContainer = () => (container.innerHTML = '');
-
-  const showEmptyMsg = () => {
-    const template = emptyMsgTemplates();
-    container.insertAdjacentHTML('afterbegin', template);
-  };
-
-  const emptyMsgTemplates = () => {
-    return `
-      <div class="tickets-empty-res-msg">
-        По вашему запросу ничего не найдено
-      </div>`;
+    container.insertAdjacentHTML('afterbegin', fragment);
   };
 
   const ticketTemplate = (ticket) => {
@@ -84,11 +69,11 @@ const ticketsUI = () => {
       </div>
       <div class="card-action">
       <button
-        class="btn waves-effect waves-light favorite-btn"
+        class="btn waves-effect waves-light delete-btn"
         data-id="${ticket.id}"
       >
-        Добавить в избранное
-      <i class="material-icons right">favorite</i>
+      удалить из избранного
+      <i class="material-icons right">delete_forever</i>
     </button>
       </div>
     </div>
@@ -96,15 +81,7 @@ const ticketsUI = () => {
     `;
   };
 
-  return Object.freeze({
-    renderTickets,
-    clearContainer,
-    showEmptyMsg,
-    emptyMsgTemplates,
-    ticketTemplate,
-  });
+  return Object.freeze({ renderFavorites });
 };
 
-const tickets = ticketsUI();
-
-export default tickets;
+export default favoriteUI;

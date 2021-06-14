@@ -33,6 +33,7 @@
     "data-fns": "^0.1.8",
     "date-fns": "^2.2.1",
     "materialize-css": "^1.0.0-rc.2",
-    "money": "^0.2.0"
+    "money": "^0.2.0",
+    "nanoid": "^3.1.23"
   }
 }
